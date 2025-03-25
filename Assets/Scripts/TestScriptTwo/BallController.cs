@@ -26,18 +26,18 @@ public class BallController : MonoBehaviour
         bounceCount = 0;
         
         // 根据击球方向生成对方场地内的随机落点
-        float randomX = Random.Range(-5f, 5f); // 对方场地X范围
+        float randomX = Random.Range(-8f, 8f); // 对方场地X范围
         float randomZ;
         
         if (isPlayerHit)
         {
             // 玩家击球，目标在对方场地 (z: 3 到 12)
-            randomZ = Random.Range(9f, 12f);
+            randomZ = Random.Range(6f, 18f);
         }
         else
         {
             // AI/对手击球，目标在玩家场地 (z: -12 到 -3)
-            randomZ = Random.Range(-12f, -9f);
+            randomZ = Random.Range(-18f, -6f);
         }
 
         if (isPerfectServe)
@@ -45,11 +45,11 @@ public class BallController : MonoBehaviour
             int randomInt= Random.Range(0, 2);
             if (randomInt==0)
             {
-                targetPosition = new Vector3(-8f, 0.3f, 9f);
+                targetPosition = new Vector3(-8f, 0.3f, 15f);
             }
             else
             {
-                targetPosition = new Vector3(8f, 0.3f, 9f);
+                targetPosition = new Vector3(8f, 0.3f, 15f);
             }
         }
         else
@@ -128,10 +128,23 @@ public class BallController : MonoBehaviour
             bounceCount++;
 
             // 如果超过最大弹跳次数，可以在这里处理（例如重置球或得分）
-            if (bounceCount > maxBounces)
+            if (bounceCount >= maxBounces)
             {
                 // 游戏逻辑：球停止弹跳，可能需要重置或计分
                 // ResetBall(); 或 GameManager.Instance.ScorePoint();
+                if (gameObject.transform.position.z>0)
+                {
+                    Debug.Log("在对面弹2次，我得分");
+                    GoalController.Instance.Score(true);
+                    GoalController.Instance.Reset_Ball();
+                }
+                else if (gameObject.transform.position.z < 0)
+                {
+                    Debug.Log("在我方弹2次，对面得分");
+                    GoalController.Instance.Score(false);
+                    GoalController.Instance.Reset_Ball();
+                }
+
                 return;
             }
             

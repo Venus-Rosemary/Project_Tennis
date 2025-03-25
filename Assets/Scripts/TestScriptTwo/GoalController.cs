@@ -17,8 +17,8 @@ public class GoalController : Singleton<GoalController>
     public bool isPlayerServeState = false;//玩家处于发球状态,球在玩家手中
     public bool isAiServeState = false;//ai处于发球状态，球在ai手中
 
-    private float ballBoundaryX = 10;
-    private float ballBoundaryZ = 16;
+    public float ballBoundaryX = 10;
+    public float ballBoundaryZ = 16;
 
     [Header("得分")]
     public int playerGoal = 0;
@@ -99,22 +99,39 @@ public class GoalController : Singleton<GoalController>
         if (Record_Now_Ball.transform.position.x < -ballBoundaryX || Record_Now_Ball.transform.position.x > ballBoundaryX ||
             Record_Now_Ball.transform.position.z < -ballBoundaryZ || Record_Now_Ball.transform.position.z > ballBoundaryZ)
         {
-            if (Record_Now_Ball.transform.position.z > 0 && Record_Now_Ball.transform.position.z > ballBoundaryZ || Record_Now_Ball.transform.position.x < -ballBoundaryX
-                || Record_Now_Ball.transform.position.x > ballBoundaryX)
+            if (Record_Now_Ball.transform.position.z > 0 && Record_Now_Ball.transform.position.z > ballBoundaryZ)
             {
+                Debug.Log("出对面界，我得分");
                 Score(true);
             }
-            else if (Record_Now_Ball.transform.position.z < 0 && Record_Now_Ball.transform.position.z < -ballBoundaryZ || Record_Now_Ball.transform.position.x < -ballBoundaryX
-                || Record_Now_Ball.transform.position.x > ballBoundaryX)
+            else if (Record_Now_Ball.transform.position.z > 0)
             {
+                if (Record_Now_Ball.transform.position.x < -ballBoundaryX || Record_Now_Ball.transform.position.x > ballBoundaryX)
+                {
+                    Debug.Log("出对面界，我得分");
+                    Score(true);
+                }
+            }
+            else if (Record_Now_Ball.transform.position.z < 0 && Record_Now_Ball.transform.position.z < -ballBoundaryZ)
+            {
+                Debug.Log("出我界，对面得分");
                 Score(false);
+            }
+            else if (Record_Now_Ball.transform.position.z < 0)
+            {
+                if (Record_Now_Ball.transform.position.x < -ballBoundaryX || Record_Now_Ball.transform.position.x > ballBoundaryX)
+                {
+                    Debug.Log("出我界，对面得分");
+                    Score(false);
+                }
+
             }
 
             Reset_Ball();
         }
     }
 
-    void Score(bool playerScored)
+    public void Score(bool playerScored)
     {
         if (Record_Now_Ball == null) return;
         Record_Now_Ball.GetComponent<BallController>().Set_FallVFX();
@@ -138,7 +155,7 @@ public class GoalController : Singleton<GoalController>
     }
 
     #region 重新发球的设置
-    void Reset_Ball()
+    public void Reset_Ball()
     {
 
         Record_Now_Ball=Instantiate(Ball_Prefab);

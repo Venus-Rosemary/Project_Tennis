@@ -150,7 +150,7 @@ MonoBehaviour:
   maxBounceHeight: 2
   gravity: 9.81
   bounceFactor: 1
-  maxBounces: 3
+  maxBounces: 2
   targetPosition: {x: 0, y: 0, z: 0}
   target_Prefab_test: {fileID: 7764100277704354852, guid: 11703fbb039bf2e4ab76aa4613423b1a, type: 3}
 --- !u!96 &7876514914163056477
