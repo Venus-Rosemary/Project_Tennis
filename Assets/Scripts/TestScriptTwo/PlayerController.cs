@@ -153,6 +153,7 @@ public class PlayerController : MonoBehaviour
                 is_rightHit = false;
                 is_leftHit = true;
                 hitTrigger.transform.localPosition = new Vector3(-1, 0, 1);
+                SoundManagement.Instance.TwoSFX(2);
                 hitTrigger.SetActive(true);
                 StartCoroutine(DisableHitTrigger());
             }
@@ -161,6 +162,7 @@ public class PlayerController : MonoBehaviour
                 is_rightHit = true;
                 is_leftHit = false;
                 hitTrigger.transform.localPosition = new Vector3(1, 0, 1);
+                SoundManagement.Instance.TwoSFX(3);
                 hitTrigger.SetActive(true);
                 StartCoroutine(DisableHitTrigger());
             }
@@ -209,6 +211,7 @@ public class PlayerController : MonoBehaviour
             }
             
             other.GetComponent<BallController>().Set_FallVFX();
+            SoundManagement.Instance.PlaySFX(0);
             other.GetComponent<BallController>().OnHit(other.transform.position, true);
             
             // 摄像机震动

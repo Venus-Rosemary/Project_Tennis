@@ -58,7 +58,7 @@ public class BallController : MonoBehaviour
         }
         if (isPlayerHit)
         {
-            AIBotController.Instance.SetTarget(targetPosition);
+            AIBotController.Instance.SetTarget(hitPosition, targetPosition);
         }
         // 计算抛物线轨迹
         LaunchBall(hitPosition, targetPosition);
@@ -134,13 +134,12 @@ public class BallController : MonoBehaviour
                 // ResetBall(); 或 GameManager.Instance.ScorePoint();
                 if (gameObject.transform.position.z>0)
                 {
-                    Debug.Log("在对面弹2次，我得分");
                     GoalController.Instance.Score(true);
+                    SoundManagement.Instance.PlaySFX(1);
                     GoalController.Instance.Reset_Ball();
                 }
                 else if (gameObject.transform.position.z < 0)
                 {
-                    Debug.Log("在我方弹2次，对面得分");
                     GoalController.Instance.Score(false);
                     GoalController.Instance.Reset_Ball();
                 }

@@ -72,6 +72,8 @@ public class GoalController : Singleton<GoalController>
             Record_Now_Ball.GetComponent<Collider>().enabled = true;
             Record_Now_Ball.GetComponent<TrailRenderer>().enabled = true;
             Record_Now_Ball.GetComponent<Rigidbody>().useGravity = true;
+            SoundManagement.Instance.PlaySFX(0);
+            SoundManagement.Instance.TwoSFX(3);
             if (slider.value > minValue && slider.value < maxValue)
             {
                 Record_Now_Ball.GetComponent<BallController>().OnHit(Record_Now_Ball.transform.position, true, true);
@@ -88,6 +90,7 @@ public class GoalController : Singleton<GoalController>
             isAiServeState = false;
             Record_Now_Ball.GetComponent<Collider>().enabled = true;
             Record_Now_Ball.GetComponent<Rigidbody>().useGravity = true;
+            SoundManagement.Instance.PlaySFX(0);
 
         }
 
@@ -101,27 +104,25 @@ public class GoalController : Singleton<GoalController>
         {
             if (Record_Now_Ball.transform.position.z > 0 && Record_Now_Ball.transform.position.z > ballBoundaryZ)
             {
-                Debug.Log("出对面界，我得分");
                 Score(true);
+                SoundManagement.Instance.PlaySFX(1);
             }
             else if (Record_Now_Ball.transform.position.z > 0)
             {
                 if (Record_Now_Ball.transform.position.x < -ballBoundaryX || Record_Now_Ball.transform.position.x > ballBoundaryX)
                 {
-                    Debug.Log("出对面界，我得分");
                     Score(true);
+                    SoundManagement.Instance.PlaySFX(1);
                 }
             }
             else if (Record_Now_Ball.transform.position.z < 0 && Record_Now_Ball.transform.position.z < -ballBoundaryZ)
             {
-                Debug.Log("出我界，对面得分");
                 Score(false);
             }
             else if (Record_Now_Ball.transform.position.z < 0)
             {
                 if (Record_Now_Ball.transform.position.x < -ballBoundaryX || Record_Now_Ball.transform.position.x > ballBoundaryX)
                 {
-                    Debug.Log("出我界，对面得分");
                     Score(false);
                 }
 

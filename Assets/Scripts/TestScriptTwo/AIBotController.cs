@@ -26,10 +26,12 @@ public class AIBotController : Singleton<AIBotController>
         }
     }
 
-    public void SetTarget(Vector3 position)
+    public void SetTarget(Vector3 startPos, Vector3 position)
     {
+        Vector3 displacement = position - startPos;
+        Vector3 horizontalDirection = new Vector3(displacement.x, 0, displacement.z).normalized;
         //targetPosition = new Vector3(position.x,gameObject.transform.position.y, gameObject.transform.position.z);
-        targetPosition = new Vector3(position.x, gameObject.transform.position.y, position.z+5f); ;
+        targetPosition = new Vector3(position.x, gameObject.transform.position.y, position.z)+ horizontalDirection*6; 
     }
 
 
@@ -38,6 +40,7 @@ public class AIBotController : Singleton<AIBotController>
         if (other.CompareTag("Ball"))
         {
             other.GetComponent<BallController>().Set_FallVFX();
+            SoundManagement.Instance.PlaySFX(0);
             other.GetComponent<BallController>().OnHit(other.transform.position,false);
 
             //// 通知玩家控制器AI已击球，需要生成新提示
